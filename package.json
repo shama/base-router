@@ -1,0 +1,39 @@
+{
+  "name": "base-router",
+  "version": "1.0.0",
+  "description": "A simple and portable router for the client and server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && node test.js",
+    "start": "budo example.js --live"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/shama/base-router"
+  },
+  "keywords": [
+    "browser",
+    "vdom",
+    "router"
+  ],
+  "author": "Kyle Robinson Young <kyle@dontkry.com> (http://dontkry.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shama/base-router/issues"
+  },
+  "homepage": "https://github.com/shama/base-router",
+  "devDependencies": {
+    "base-element": "^2.2.0",
+    "budo": "^4.0.0",
+    "standard": "^4.0.0",
+    "tape": "^4.0.0",
+    "vdom-to-html": "^2.1.0",
+    "virtual-dom": "^2.0.1"
+  },
+  "dependencies": {
+    "global": "^4.3.0",
+    "hash-router": "^0.4.0",
+    "inherits": "^2.0.1",
+    "routes": "^2.0.0"
+  }
+}
