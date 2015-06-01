@@ -29,11 +29,10 @@
     "standard": "^4.0.0",
     "tape": "^4.0.0",
     "vdom-to-html": "^2.1.0",
-    "virtual-dom": "^2.0.1"
+    "virtual-dom": "^2.0.1",
+    "zuul": "^3.0.0"
   },
   "dependencies": {
-    "global": "^4.3.0",
-    "hash-router": "^0.4.0",
     "inherits": "^2.0.1",
     "routes": "^2.0.0"
   }
