@@ -1,6 +1,6 @@
 {
   "name": "base-router",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple and portable router for the client and server.",
   "main": "index.js",
   "scripts": {
