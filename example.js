@@ -63,7 +63,5 @@ if (process.browser) {
     this.response.writeHead(200, { 'Content-Type': 'text/html' })
     this.response.end(toHTML(app.element.vtree))
   })
-  require('http').createServer(function (req, res) {
-    
-  }).listen(1337)
+  require('http').createServer(middleware).listen(1337)
 }
