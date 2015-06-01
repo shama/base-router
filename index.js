@@ -2,7 +2,6 @@ module.exports = Router
 
 var EE = require('events').EventEmitter
 var inherits = require('inherits')
-var url = require('url')
 var createRouter = require('routes')
 
 function Router (routes, opts) {
@@ -72,7 +71,7 @@ Router.prototype.serve = function (fn) {
       request: request,
       response: response
     }
-    var name = url.parse(request.url).pathname
+    var name = require('url').parse(request.url).pathname
     self.once('transition', function (route, data) {
       fn.call(ctx, route, data)
     })
@@ -84,7 +83,6 @@ Router.prototype._initBrowser = function (which) {
   var self = this
   var window = require('global/window')
   var location = require('global/document').location
-  var url = require('url')
 
   // If location doesnt exist, dont even try
   if (!location) return

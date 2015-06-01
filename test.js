@@ -12,34 +12,34 @@ test('return data', function (t) {
     t.equal(router.currentRoute, '/')
     t.deepEqual(data, [1, 2, 3])
   })
-  router.transtionTo('/')
+  router.transitionTo('/')
   router.on('error', function (page, err) {
     t.equal(page, '/error')
     t.equal(router.currentRoute, '/')
     t.equal(err.message, 'dang it')
     t.end()
   })
-  router.transtionTo('/error')
+  router.transitionTo('/error')
 })
 
 test('callback data / error', function (t) {
   t.plan(5)
   var router = new Router({
-    '/': function (done) { done(null, [1, 2, 3]) },
-    '/error': function (done) { done(new Error('dang it')) }
+    '/': function (params, done) { done(null, [1, 2, 3]) },
+    '/error': function (params, done) { done(new Error('dang it')) }
   })
   router.on('transition', function (page, data) {
     t.equal(page, '/')
     t.deepEqual(data, [1, 2, 3])
   })
-  router.transtionTo('/')
+  router.transitionTo('/')
   router.on('error', function (page, err) {
     t.equal(page, '/error')
     t.equal(router.currentRoute, '/')
     t.equal(err.message, 'dang it')
     t.end()
   })
-  router.transtionTo('/error')
+  router.transitionTo('/error')
 })
 
 test('promise data / error', function (t) {
@@ -60,19 +60,19 @@ test('promise data / error', function (t) {
     t.equal(page, '/')
     t.deepEqual(data, [1, 2, 3])
   })
-  router.transtionTo('/')
+  router.transitionTo('/')
   router.on('error', function (page, err) {
     t.equal(page, '/error')
     t.equal(err.message, 'dang it')
     t.end()
   })
-  router.transtionTo('/error')
+  router.transitionTo('/error')
 })
 
 test('loading', function (t) {
   t.plan(3)
   var router = new Router({
-    '/': function (done) {
+    '/': function (params, done) {
       setTimeout(function () {
         done(null, [1, 2, 3])
       }, 100)
@@ -86,7 +86,7 @@ test('loading', function (t) {
     t.deepEqual(data, [1, 2, 3])
     t.end()
   })
-  router.transtionTo('/')
+  router.transitionTo('/')
 })
 
 test('unknown route', function (t) {
@@ -97,13 +97,13 @@ test('unknown route', function (t) {
     t.equal(err.message, 'Route not found: /dunno')
     t.end()
   })
-  router.transtionTo('/dunno')
+  router.transitionTo('/dunno')
 })
 
 test('abort route', function (t) {
   t.plan(1)
   var router = new Router({
-    '/': function (done) {
+    '/': function (params, done) {
       setTimeout(function () {
         done(null, [1, 2, 3])
       }, 100)
@@ -119,7 +119,7 @@ test('abort route', function (t) {
       t.end()
     }, 300)
   })
-  router.transtionTo('/')
+  router.transitionTo('/')
 })
 
 // TODO: Test current route
