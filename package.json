@@ -14,7 +14,10 @@
   },
   "keywords": [
     "browser",
-    "vdom",
+    "virtual",
+    "dom",
+    "portable",
+    "isomorphic",
     "router"
   ],
   "author": "Kyle Robinson Young <kyle@dontkry.com> (http://dontkry.com)",
