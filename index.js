@@ -12,7 +12,7 @@ function Router (routes, opts) {
   self._router = createRouter()
   self.currentRoute = null
   if (routes) {
-    Object.keys(routes).forEach(function (key) {
+    Object.keys(routes).forEach(function BaseRouter_forEachRoutes (key) {
       self.route(key, routes[key])
     })
   }
@@ -20,11 +20,11 @@ function Router (routes, opts) {
 }
 inherits(Router, EE)
 
-Router.prototype.route = function (name, model) {
+Router.prototype.route = function BaseRouter_route (name, model) {
   this._router.addRoute(name, model)
 }
 
-Router.prototype.transitionTo = function (name) {
+Router.prototype.transitionTo = function BaseRouter_transitionTo (name) {
   var self = this
 
   if (name === self.currentRoute) return
@@ -64,7 +64,7 @@ Router.prototype.transitionTo = function (name) {
 }
 
 // TODO: Still not sure about this API
-Router.prototype.serve = function (fn) {
+Router.prototype.serve = function BaseRouter_serve (fn) {
   var self = this
   return function (request, response) {
     var ctx = {
@@ -79,7 +79,7 @@ Router.prototype.serve = function (fn) {
   }
 }
 
-Router.prototype._initBrowser = function (which) {
+Router.prototype._initBrowser = function BaseRouter_initBrowser (which) {
   var self = this
   var window = require('global/window')
   var location = require('global/document').location
@@ -92,17 +92,17 @@ Router.prototype._initBrowser = function (which) {
   else if (which === 'hash') usePush = false
 
   if (usePush) {
-    window.onpopstate = function (e) {
+    window.onpopstate = function BaseRouter_onpopstate (e) {
       self.transitionTo(location.pathname)
     }
-    self.on('transition', function (page) {
+    self.on('transition', function BaseRouter_popStateTransition (page) {
       window.history.pushState({}, page, page)
     })
   } else {
-    window.addEventListener('hashchange', function (e) {
+    window.addEventListener('hashchange', function BaseRouter_hashchange (e) {
       self.transitionTo(location.hash.slice(1))
     }, false)
-    self.on('transition', function (page) {
+    self.on('transition', function BaseRouter_hashTransition (page) {
       location.hash = '#' + page
     })
   }
