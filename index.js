@@ -24,7 +24,7 @@ Router.prototype.route = function BaseRouter_route (name, model) {
   this._router.addRoute(name, model)
 }
 
-Router.prototype.transitionTo = function BaseRouter_transitionTo (name) {
+Router.prototype.transitionTo = function BaseRouter_transitionTo (name, preventPush) {
   var self = this
 
   if (name === self.currentRoute) return
@@ -37,7 +37,7 @@ Router.prototype.transitionTo = function BaseRouter_transitionTo (name) {
     if (aborted) return
     if (err) return self.emit('error', name, err)
     self.currentRoute = name
-    self.emit('transition', name, data)
+    self.emit('transition', name, data, preventPush)
   }
 
   var model = this._router.match(name)
@@ -93,10 +93,10 @@ Router.prototype._initBrowser = function BaseRouter_initBrowser (which) {
 
   if (usePush) {
     window.onpopstate = function BaseRouter_onpopstate (e) {
-      self.transitionTo(location.pathname)
+      self.transitionTo(location.pathname, true)
     }
-    self.on('transition', function BaseRouter_popStateTransition (page) {
-      window.history.pushState({}, page, page)
+    self.on('transition', function BaseRouter_popStateTransition (page, _, preventPush) {
+      if (!preventPush) window.history.pushState({}, page, page)
     })
   } else {
     window.addEventListener('hashchange', function BaseRouter_hashchange (e) {
