@@ -11,7 +11,6 @@ function Router (routes, opts) {
   opts = opts || {}
   self._router = createRouter()
   self.currentRoute = null
-  self.preventPush = false
   if (routes) {
     Object.keys(routes).forEach(function BaseRouter_forEachRoutes (key) {
       self.route(key, routes[key])
@@ -92,21 +91,26 @@ Router.prototype._initBrowser = function BaseRouter_initBrowser (which) {
   if (which === 'history') usePush = true
   else if (which === 'hash') usePush = false
 
+  // Used to prevent double calling pushState or hashchange
+  var preventOnTransition = false
+
   if (usePush) {
     window.onpopstate = function BaseRouter_onpopstate (e) {
-      self.preventPush = true
+      preventOnTransition = true
       self.transitionTo(location.pathname)
     }
     self.on('transition', function BaseRouter_popStateTransition (page) {
-      if (!self.preventPush) window.history.pushState({}, page, page)
-      self.preventPush = false
+      if (!preventOnTransition) window.history.pushState({}, page, page)
+      preventOnTransition = false
     })
   } else {
     window.addEventListener('hashchange', function BaseRouter_hashchange (e) {
+      preventOnTransition = true
       self.transitionTo(location.hash.slice(1))
     }, false)
     self.on('transition', function BaseRouter_hashTransition (page) {
-      location.hash = '#' + page
+      if (!preventOnTransition) location.hash = '#' + page
+      preventOnTransition = false
     })
   }
 }
