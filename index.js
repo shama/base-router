@@ -11,6 +11,7 @@ function Router (routes, opts) {
   opts = opts || {}
   self._router = createRouter()
   self.currentRoute = null
+  self.preventPush = false
   if (routes) {
     Object.keys(routes).forEach(function BaseRouter_forEachRoutes (key) {
       self.route(key, routes[key])
@@ -24,7 +25,7 @@ Router.prototype.route = function BaseRouter_route (name, model) {
   this._router.addRoute(name, model)
 }
 
-Router.prototype.transitionTo = function BaseRouter_transitionTo (name, preventPush) {
+Router.prototype.transitionTo = function BaseRouter_transitionTo (name) {
   var self = this
 
   if (name === self.currentRoute) return
@@ -37,7 +38,7 @@ Router.prototype.transitionTo = function BaseRouter_transitionTo (name, preventP
     if (aborted) return
     if (err) return self.emit('error', name, err)
     self.currentRoute = name
-    self.emit('transition', name, data, preventPush)
+    self.emit('transition', name, data)
   }
 
   var model = this._router.match(name)
@@ -93,10 +94,12 @@ Router.prototype._initBrowser = function BaseRouter_initBrowser (which) {
 
   if (usePush) {
     window.onpopstate = function BaseRouter_onpopstate (e) {
-      self.transitionTo(location.pathname, true)
+      self.preventPush = true
+      self.transitionTo(location.pathname)
     }
-    self.on('transition', function BaseRouter_popStateTransition (page, _, preventPush) {
-      if (!preventPush) window.history.pushState({}, page, page)
+    self.on('transition', function BaseRouter_popStateTransition (page) {
+      if (!self.preventPush) window.history.pushState({}, page, page)
+      self.preventPush = false
     })
   } else {
     window.addEventListener('hashchange', function BaseRouter_hashchange (e) {
