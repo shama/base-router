@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "standard && tape test/*.js && zuul --local 9966 -- test/*.js",
-    "ci": "standard && node test.js && zuul -- test.js",
+    "ci": "standard && node test/*.js && zuul -- test/*.js",
     "start": "budo example.js --live"
   },
   "repository": {
