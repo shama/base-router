@@ -3,56 +3,46 @@ var test = require('tape')
 var location = require('global/window').location
 var history = require('global/window').history
 
-if (location && history) {
+if (location) {
   test('hashchange', function (t) {
-    t.plan(6)
-    var first = true
+    t.plan(2)
     var router = new Router({
       '/one': function () { return 1 },
       '/two': function () { return 2 }
     }, {location: 'hash'})
     router.on('transition', function (route, data) {
-      if (first) {
-        first = false
-        t.equal(route, '/one')
+      if (route === '/one') {
         t.equal(location.hash, '#/one')
-        t.equal(data, 1)
         router.transitionTo('/two')
       } else {
-        t.equal(route, '/two')
         t.equal(location.hash, '#/two')
-        t.equal(data, 2)
         t.end()
       }
     })
     location.hash = '#/one'
   })
+}
 
+if (history) {
   test('history', function (t) {
-    t.plan(6)
-    var first = true
-    var second, back, forward = false
+    t.plan(4)
+    var data = [0, 0]
     var router = new Router({
-      '/one': function () { return 1 },
-      '/two': function () { return 2 }
+      '/one': function () { return ++data[0] },
+      '/two': function () { return ++data[1] }
     }, {location: 'history'})
-    router.on('transition', function (route, data) {
-      if (first) {
-        first = false; second = true
-        t.equal(route, '/one')
-        t.equal(data, 1)
+    router.on('transition', function (route, count) {
+      if (route === '/one' && count === 1) {
+        t.equal(location.pathname, '/one')
         router.transitionTo('/two')
-      } else if (second) {
-        second = false; back = true
+      } else if (route === '/two' && count === 1) {
+        t.equal(location.pathname, '/two')
         history.back()
-      } else if (back) {
-        back = false; forward = true
-        t.equal(route, '/one')
-        t.equal(data, 1)
+      } else if (route === '/one' && count === 2) {
+        t.equal(location.pathname, '/one')
         history.go(1)
-      } else if (forward) {
-        t.equal(route, '/two')
-        t.equal(data, 2)
+      } else {
+        t.equal(location.pathname, '/two')
         t.end()
       }
     })
