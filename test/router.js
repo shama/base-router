@@ -1,5 +1,5 @@
 var test = require('tape')
-var Router = require('./index.js')
+var Router = require('../')
 
 test('return data', function (t) {
   t.plan(6)

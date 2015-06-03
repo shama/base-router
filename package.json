@@ -4,7 +4,7 @@
   "description": "A simple and portable router for the client and server.",
   "main": "index.js",
   "scripts": {
-    "test": "standard && node test.js && zuul --local 9966 -- test.js",
+    "test": "standard && tape test/*.js && zuul --local 9966 -- test/*.js",
     "ci": "standard && node test.js && zuul -- test.js",
     "start": "budo example.js --live"
   },
