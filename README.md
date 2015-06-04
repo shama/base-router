@@ -113,8 +113,10 @@ Creates a new instance of `base-router`.
 Adds a new route. `name` is the pathname to our route and `model` is a function
 that resolves the data for the route.
 
-### `router.transitionTo(name)`
+### `router.transitionTo(name[, params])`
 Transitions to the given route `name`.
+
+Optionally you can supply `params` to override the params given to a route.
 
 ### `router.currentRoute`
 The last resolved route we are currently on.
