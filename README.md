@@ -113,6 +113,12 @@ Creates a new instance of `base-router`.
 Adds a new route. `name` is the pathname to our route and `model` is a function
 that resolves the data for the route.
 
+```js
+router.route('/user/:id', function (params, done) {
+  done(null, params.id)
+})
+```
+
 ### `router.transitionTo(name[, params])`
 Transitions to the given route `name`.
 
