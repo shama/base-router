@@ -24,7 +24,7 @@ Router.prototype.route = function BaseRouter_route (name, model) {
   this._router.addRoute(name, model)
 }
 
-Router.prototype.transitionTo = function BaseRouter_transitionTo (name) {
+Router.prototype.transitionTo = function BaseRouter_transitionTo (name, params) {
   var self = this
 
   if (name === self.currentRoute) return
@@ -47,7 +47,7 @@ Router.prototype.transitionTo = function BaseRouter_transitionTo (name) {
 
   try {
     // TODO: Detect queryParams
-    var data = model.fn(model.params, done)
+    var data = model.fn(params || model.params, done)
     if (data) {
       if (typeof data.then === 'function') {
         data.then(function (result) {

@@ -122,4 +122,15 @@ test('abort route', function (t) {
   router.transitionTo('/')
 })
 
+test('params with transitionTo', function (t) {
+  t.plan(1)
+  var router = new Router({
+    '/': function (params) {
+      t.equal(params.test, 'testing')
+      t.end()
+    }
+  })
+  router.transitionTo('/', {test: 'testing'})
+})
+
 // TODO: Test current route
