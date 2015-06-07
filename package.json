@@ -38,6 +38,6 @@
   "dependencies": {
     "global": "^4.3.0",
     "inherits": "^2.0.1",
-    "routes": "^2.0.0"
+    "wayfarer": "^3.1.0"
   }
 }

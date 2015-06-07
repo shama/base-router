@@ -2,7 +2,7 @@ module.exports = Router
 
 var EE = require('events').EventEmitter
 var inherits = require('inherits')
-var createRouter = require('routes')
+var createRouter = require('wayfarer')
 
 function Router (routes, opts) {
   if (!(this instanceof Router)) return new Router(routes, opts)
@@ -21,7 +21,7 @@ function Router (routes, opts) {
 inherits(Router, EE)
 
 Router.prototype.route = function BaseRouter_route (name, model) {
-  this._router.addRoute(name, model)
+  this._router.on(name, model)
 }
 
 Router.prototype.transitionTo = function BaseRouter_transitionTo (name, params) {
@@ -47,7 +47,7 @@ Router.prototype.transitionTo = function BaseRouter_transitionTo (name, params) 
 
   try {
     // TODO: Detect queryParams
-    var data = model.fn(params || model.params, done)
+    var data = model.node.cb(params || model.param, done)
     if (data) {
       if (typeof data.then === 'function') {
         data.then(function (result) {
