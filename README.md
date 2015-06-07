@@ -119,10 +119,13 @@ router.route('/user/:id', function (params, done) {
 })
 ```
 
-### `router.transitionTo(name[, params])`
+### `router.transitionTo(name[, params, callback])`
 Transitions to the given route `name`.
 
 Optionally you can supply `params` to override the params given to a route.
+
+Optionally you can supply a `callback` which will be called instead of using the
+`transition` and `error` events.
 
 ### `router.currentRoute`
 The last resolved route we are currently on.

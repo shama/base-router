@@ -133,4 +133,18 @@ test('params with transitionTo', function (t) {
   router.transitionTo('/', {test: 'testing'})
 })
 
+test('callback with transitionTo', function (t) {
+  t.plan(1)
+  var router = new Router({
+    '/': function (params, done) {
+      done(null, params.test)
+    }
+  })
+  router.transitionTo('/', {test: 'testing'}, function (err, result) {
+    if (err) throw err
+    t.equal(result, 'testing')
+    t.end()
+  })
+})
+
 // TODO: Test current route

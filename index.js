@@ -24,20 +24,27 @@ Router.prototype.route = function BaseRouter_route (name, model) {
   this._router.on(name, model)
 }
 
-Router.prototype.transitionTo = function BaseRouter_transitionTo (name, params) {
+Router.prototype.transitionTo = function BaseRouter_transitionTo (name, params, done) {
   var self = this
 
   if (name === self.currentRoute) return
+
+  if (typeof params === 'function') {
+    done = params
+    params = null
+  }
 
   var aborted = false
   function abort () { aborted = true }
   self.emit('loading', name, abort)
 
-  function done (err, data) {
-    if (aborted) return
-    if (err) return self.emit('error', name, err)
-    self.currentRoute = name
-    self.emit('transition', name, data)
+  if (typeof done !== 'function') {
+    done = function done (err, data) {
+      if (aborted) return
+      if (err) return self.emit('error', name, err)
+      self.currentRoute = name
+      self.emit('transition', name, data)
+    }
   }
 
   var model = this._router.match(name)
