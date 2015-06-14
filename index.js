@@ -2,7 +2,7 @@ module.exports = Router
 
 var EE = require('events').EventEmitter
 var inherits = require('inherits')
-var createRouter = require('wayfarer')
+var createRouter = require('routington')
 
 function Router (routes, opts) {
   if (!(this instanceof Router)) return new Router(routes, opts)
@@ -21,7 +21,8 @@ function Router (routes, opts) {
 inherits(Router, EE)
 
 Router.prototype.route = function BaseRouter_route (name, model) {
-  this._router.on(name, model)
+  var node = this._router.define(name)[0]
+  node.cb = model
 }
 
 Router.prototype.transitionTo = function BaseRouter_transitionTo (name, params, cb) {
