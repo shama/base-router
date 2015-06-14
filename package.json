@@ -38,6 +38,6 @@
   "dependencies": {
     "global": "^4.3.0",
     "inherits": "^2.0.1",
-    "wayfarer": "^3.1.0"
+    "routington": "^1.0.3"
   }
 }
