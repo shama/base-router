@@ -29,7 +29,7 @@ router.transtionTo('/')
 ```
 
 #### Specifying Routes
-This library uses the module [wayfarer](https://github.com/yoshuawuyts/wayfarer)
+This library uses the module [routington](https://github.com/pillarjs/routington)
 to specify and match routes. Please see their docs for route matching.
 
 Some common examples are:
