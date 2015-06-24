@@ -13,16 +13,22 @@ function Router (routes, opts) {
   self.currentRoute = null
   if (routes) {
     Object.keys(routes).forEach(function BaseRouter_forEachRoutes (key) {
-      self.route(key, routes[key])
+      self.addRoute(key, routes[key])
     })
   }
   if (opts.location !== false) this._initBrowser(opts.location)
 }
 inherits(Router, EE)
 
-Router.prototype.route = function BaseRouter_route (name, model) {
+Router.prototype.addRoute = function BaseRouter_addRoute (name, model) {
   var node = this._router.define(name)[0]
   node.cb = model
+}
+
+// Deprecated. Use Router.prototype.addRoute instead
+Router.prototype.route = function BaseRouter_route (name, model) {
+  console.warn('Router.route is deprecated and will be removed in version 2.0. Please use Router.addRoute instead.')
+  this.addRoute(name, model)
 }
 
 Router.prototype.transitionTo = function BaseRouter_transitionTo (name, params, cb) {
