@@ -50,14 +50,16 @@ App.prototype.render = function (page, data) {
   ]))
 }
 
+var app
+
 if (process.browser) {
   // On the client side
-  var app = new App(document.body)
+  app = new App(document.body)
   app.router.transitionTo('/posts/one')
 } else {
   // On the server side
   var toHTML = require('vdom-to-html')
-  var app = new App(false)
+  app = new App(false)
   var middleware = app.router.serve(function (page, data) {
     app.render(page, data)
     this.response.writeHead(200, { 'Content-Type': 'text/html' })
