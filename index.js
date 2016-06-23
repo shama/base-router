@@ -88,7 +88,7 @@ Router.prototype.serve = function BaseRouter_serve (fn) {
       request: request,
       response: response
     }
-    var name = require('url').parse(request.url).pathname
+    var name = require('pathname-match')(request.url)
     self.once('transition', function (route, data) {
       fn.call(ctx, route, data)
     })
